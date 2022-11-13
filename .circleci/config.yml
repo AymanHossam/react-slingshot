@@ -9,20 +9,20 @@ jobs:
       - run:
           name: "install node modules"
           command: "npm i"
-      - run:
-          name: lint
-          command: npm run lint
       - save_cache:
           paths:
             - "./node_modules"
-          key: Nodes
+          key: Nudes
+      - run:
+          name: lint
+          command: npm run lint
   test:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
-          key: Nodes
+          key: Nudes
       - run:
           name: "install node modules"
           command: "npm i"
