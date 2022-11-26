@@ -1,50 +1,20 @@
 version: 2.1
-
 jobs:
-  build:
+  create_infrastructure:
     docker:
-      - image: circleci/node:13.8.0
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
-          name: "install node modules"
-          command: "npm i"
-      - save_cache:
-          paths:
-            - "./node_modules"
-          key: Nudes
-      - run:
-          name: lint
-          command: npm run lint
-  test:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          key: Nudes
-      - run:
-          name: "install node modules"
-          command: "npm i"
-      - run:
-          name: test
-          command: npm run test
-  analysis:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - checkout
-      - run:
-          name: "analysis"
-          command: npm audit
-
+          name: Create Cloudformation Stack
+          command: |
+            aws cloudformation deploy \
+              --template-file cloudformation-template.yml \
+              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+              --region us-east-1
+# Sequential workflow
 workflows:
-  build-workflow:
+  # Name the workflow
+  myWorkflow:
     jobs:
-      - build
-      - test:
-          requires:
-            - "build"
-      - analysis:
-          requires:
-            - "test"
+      - create_infrastructure
