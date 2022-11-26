@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: |
-            ansible-playbook -i ./ansible/inventory main-remote.yml --private-key ./ansible/CICD.pem
+            ansible-playbook -i ./ansible/inventory ./ansible/main-remote.yml --private-key ./ansible/CICD.pem
 # Sequential workflow
 workflows:
   # Name the workflow
