@@ -95,7 +95,7 @@ jobs:
           name: Destroy the previous CloudFormation stack.
           command: |
             export OldStackID=$(cat ~/textfile.txt)
-            aws cloudformation delete-stack --stack-name stack-create-bucket-${OldStackID}
+            aws cloudformation delete-stack --stack-name "stack-create-bucket-${OldStackID}"
 
 # Sequential workflow
 workflows:
